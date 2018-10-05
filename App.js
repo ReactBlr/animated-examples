@@ -1,17 +1,21 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
+import { Constants } from 'expo';
 
 export default class App extends React.Component {
   state={};
 
+  onPressButton = () => {
+
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
+        <Button
+          title="Click Me"
+          onPress={this.onPressButton}
+        />
       </View>
     );
   }
@@ -21,5 +25,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingTop: Constants.statusBarHeight,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
