@@ -1,78 +1,69 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Animated,
-  Easing,
-} from 'react-native';
+import { StyleSheet, View, Button, Animated } from 'react-native';
 
-const logoImage = require('./assets/icon.png');
+function burnCPU(milliseconds) {
+  const startDate = new Date();
+  let currDate = new Date();
+  while (currDate - startDate < milliseconds) {
+    currDate = new Date();
+  }
+}
 
 export default class App extends React.Component {
   state={
-    animatedRotateValue: new Animated.Value(0),
-    animatedScaleValue: new Animated.Value(0),
+    valueA: new Animated.Value(0),
+    valueB: new Animated.Value(0),
   };
 
-  componentDidMount() {
-    const { animatedRotateValue, animatedScaleValue } = this.state;
+  handleOnPress = () => {
+    setTimeout(() => { burnCPU(500); }, 200);
 
-    Animated.timing(
-      animatedScaleValue, {
-        toValue: 1,
-        useNativeDriver: true,
-        duration: 3000,
-        easing: Easing.elastic(2),
-      },
-    ).start();
+    const { valueA, valueB } = this.state;
 
-    Animated.loop(
-      Animated.timing(
-        animatedRotateValue,
-        {
-          toValue: 1,
-          duration: 2000,
-          useNativeDriver: true,
-          easing: Easing.linear,
-        },
-      ),
-    ).start();
+    // Bad Animated
+    Animated.timing(valueA, {
+      duration: 5000,
+      toValue: 1,
+    }).start();
+
+    // Good Animated
+    Animated.timing(valueB, {
+      duration: 5000,
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
   }
 
   render() {
-    const { animatedRotateValue, animatedScaleValue } = this.state;
-
-    const spinTransform = animatedRotateValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['0deg', '360deg'],
-    });
-
-    const scaleTransform = animatedScaleValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 1],
-    });
+    const { valueA, valueB } = this.state;
 
     return (
       <View style={styles.container}>
-        <Animated.Image
-          source={logoImage}
-          style={{
-            height: 100,
-            width: 100,
-            transform: [
-              { rotate: spinTransform },
-              { scaleX: scaleTransform },
-              { scaleY: scaleTransform },
-            ],
-          }}
+        <View style={styles.row}>
+          <Animated.View
+            style={{
+              backgroundColor: 'black',
+              width: 100,
+              height: 200,
+              margin: 20,
+              opacity: valueA,
+            }}
+          />
+          <Animated.View
+            style={{
+              backgroundColor: 'black',
+              width: 100,
+              height: 200,
+              margin: 20,
+              opacity: valueB,
+            }}
+          />
+        </View>
+        <Button
+          title="Click Me"
+          onPress={this.handleOnPress}
+          style={styles.button}
         />
-        <Text style={styles.t1}>
-          Checkout the branches of this repo to try out awesome animations.
-        </Text>
-        <Text style={styles.t2}>
-          {'😬 Also check README.md 😬'}
-        </Text>
       </View>
     );
   }
@@ -86,14 +77,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 32,
   },
-  t1: {
-    fontWeight: '500',
-    textAlign: 'center',
-    marginTop: 16,
+  button: {
+    marginTop: 40,
   },
-  t2: {
-    fontWeight: '300',
-    textAlign: 'center',
-    marginTop: 16,
+  row: {
+    flexDirection: 'row',
   },
 });
