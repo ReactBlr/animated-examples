@@ -1,0 +1,31 @@
+{
+  "name": "animated-examples",
+  "author": {
+    "name" : "Kashish Grover", 
+    "email" : "kashishgrover95@gmail.com",
+    "url" : "https://kashishgrover.com/"
+  },
+  "main": "node_modules/expo/AppEntry.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios"
+  },
+  "dependencies": {
+    "expo": "^30.0.1",
+    "react": "16.3.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
+    "react-native-vector-icons": "^5.0.0",
+    "react-navigation": "^2.17.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.5",
+    "eslint": "^5.0.1",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.10.0"
+  }
+}
