@@ -1,7 +1,5 @@
 /*
-  In this example, I animate the size of a circle over a period of time.
-  Using Animated.Stagger, Animated.Loop along with Animated.Parallel.
-  This shows how you can make these work together to a little more complex animations.
+  In this example, I show how to create a spinning animation using interpolations.
 */
 
 import React from 'react';
@@ -9,66 +7,38 @@ import { StyleSheet, View, Button, Animated } from 'react-native';
 import { Constants } from 'expo';
 
 export default class App extends React.Component {
-  state={
-    valueA: new Animated.Value(0),
-    valueB: new Animated.Value(1),
-  };
+  spinValue = new Animated.Value(0);
 
   onPressStart = () => {
-    const { valueA, valueB } = this.state;
-
-    this.animation = Animated.loop(
-      Animated.stagger(2000, [
-        Animated.parallel([
-          Animated.spring(valueA, { toValue: 100 }),
-          Animated.timing(valueB, { toValue: 0.2 }),
-        ]),
-        Animated.parallel([
-          Animated.spring(valueA, { toValue: 200 }),
-          Animated.timing(valueB, { toValue: 1 }),
-        ]),
-        Animated.parallel([
-          Animated.spring(valueA, { toValue: 100 }),
-          Animated.timing(valueB, { toValue: 0.2 }),
-        ]),
-        Animated.parallel([
-          Animated.spring(valueA, { toValue: 0 }),
-          Animated.timing(valueB, { toValue: 1 }),
-        ]),
+    Animated.loop(
+      Animated.stagger(1000, [
+        Animated.timing(this.spinValue, { toValue: 1 }),
+        Animated.timing(this.spinValue, { toValue: 0 }),
       ]),
-    ).start((obj) => {
-      alert(JSON.stringify(obj));
-    });
-  }
-
-  onPressStop = () => {
-    const { valueA } = this.state;
-
-    valueA.stopAnimation();
-    // valueB.stopAnimation();
+    ).start();
   }
 
   render() {
-    const { valueA, valueB } = this.state;
+    const spinTransform = this.spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg'],
+    });
 
     return (
       <View style={styles.container}>
         <Animated.View
           style={{
-            opacity: valueB,
-            width: valueA,
-            height: valueA,
-            borderRadius: valueA,
-            backgroundColor: '#ff7700',
+            width: 200,
+            height: 100,
+            borderRadius: 50,
+            backgroundColor: 'green',
+            transform: [{ rotate: spinTransform }],
           }}
         />
         <Button
-          title="Start Button"
+          title="Spin Button"
           onPress={this.onPressStart}
-        />
-        <Button
-          title="Stop Button"
-          onPress={this.onPressStop}
+          style={styles.buttonStyle}
         />
       </View>
     );
@@ -83,6 +53,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  animatedViewStyle: {
+  buttonStyle: {
+    padding: 100,
   },
 });
