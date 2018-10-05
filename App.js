@@ -1,6 +1,7 @@
 /*
   In this example, I animate the size of a circle over a period of time.
-  Using Animated.Stagger & Animated.Loop, I sequence a few simple animations.
+  Using Animated.Stagger, Animated.Loop along with Animated.Parallel.
+  This shows how you can make these work together to a little more complex animations.
 */
 
 import React from 'react';
@@ -16,15 +17,23 @@ export default class App extends React.Component {
   onPressButton = () => {
     const { valueA, valueB } = this.state;
     Animated.loop(
-      Animated.stagger(1000, [
-        Animated.timing(valueA, { toValue: 100 }),
-        Animated.timing(valueB, { toValue: 0.5 }),
-        Animated.timing(valueA, { toValue: 200 }),
-        Animated.timing(valueB, { toValue: 1 }),
-        Animated.timing(valueA, { toValue: 100 }),
-        Animated.timing(valueB, { toValue: 0.5 }),
-        Animated.timing(valueA, { toValue: 0 }),
-        Animated.timing(valueB, { toValue: 1 }),
+      Animated.stagger(2000, [
+        Animated.parallel([
+          Animated.spring(valueA, { toValue: 100 }),
+          Animated.timing(valueB, { toValue: 0.2 }),
+        ]),
+        Animated.parallel([
+          Animated.spring(valueA, { toValue: 200 }),
+          Animated.timing(valueB, { toValue: 1 }),
+        ]),
+        Animated.parallel([
+          Animated.spring(valueA, { toValue: 100 }),
+          Animated.timing(valueB, { toValue: 0.2 }),
+        ]),
+        Animated.parallel([
+          Animated.spring(valueA, { toValue: 0 }),
+          Animated.timing(valueB, { toValue: 1 }),
+        ]),
       ]),
     ).start();
   }
