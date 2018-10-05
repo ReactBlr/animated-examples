@@ -16,19 +16,19 @@ export default class App extends React.Component {
   };
 
   handleOnPress = () => {
-    setTimeout(() => { burnCPU(500); }, 200);
+    setTimeout(() => { burnCPU(1000); }, 200);
 
     const { valueA, valueB } = this.state;
 
     // Bad Animated
     Animated.timing(valueA, {
-      duration: 5000,
+      duration: 3000,
       toValue: 1,
     }).start();
 
     // Good Animated
     Animated.timing(valueB, {
-      duration: 5000,
+      duration: 3000,
       toValue: 1,
       useNativeDriver: true,
     }).start();
@@ -37,25 +37,35 @@ export default class App extends React.Component {
   render() {
     const { valueA, valueB } = this.state;
 
+    const scaleTransformA = valueA.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, -200],
+    });
+
+    const scaleTransformB = valueB.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, -200],
+    });
+
     return (
       <View style={styles.container}>
         <View style={styles.row}>
           <Animated.View
             style={{
               backgroundColor: 'black',
-              width: 100,
-              height: 200,
-              margin: 20,
-              opacity: valueA,
+              width: 50,
+              height: 100,
+              margin: 40,
+              transform: [{ translateY: scaleTransformA }],
             }}
           />
           <Animated.View
             style={{
               backgroundColor: 'black',
-              width: 100,
-              height: 200,
-              margin: 20,
-              opacity: valueB,
+              width: 50,
+              height: 100,
+              margin: 40,
+              transform: [{ translateY: scaleTransformB }],
             }}
           />
         </View>
