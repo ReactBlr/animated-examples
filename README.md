@@ -1,11 +1,9 @@
 # Animated Examples
 
-## All about using React Native's Animated Library
+### Animated Methods - Part 1
 
-## Agenda
+Here have a Button and an Animated.View. Click the Button and the View becomes opaque. Click it again and the View becomes transparent.
 
-1. Examples of Animated Methods
+Take a close look at what happens. On click the Animated.Value will time to the 'toValues' mention in the onPressButton function.
 
-2. Building a Twitter-like scroll based animation
-
-3. Animated Performance
+Try fiddling around with the 'toValues' and the styles of the Animated.View.
