@@ -14,9 +14,10 @@ export default class App extends React.Component {
     valueB: new Animated.Value(1),
   };
 
-  onPressButton = () => {
+  onPressStart = () => {
     const { valueA, valueB } = this.state;
-    Animated.loop(
+
+    this.animation = Animated.loop(
       Animated.stagger(2000, [
         Animated.parallel([
           Animated.spring(valueA, { toValue: 100 }),
@@ -35,7 +36,16 @@ export default class App extends React.Component {
           Animated.timing(valueB, { toValue: 1 }),
         ]),
       ]),
-    ).start();
+    ).start((obj) => {
+      alert(JSON.stringify(obj));
+    });
+  }
+
+  onPressStop = () => {
+    const { valueA } = this.state;
+
+    valueA.stopAnimation();
+    // valueB.stopAnimation();
   }
 
   render() {
@@ -53,8 +63,12 @@ export default class App extends React.Component {
           }}
         />
         <Button
-          title="Click Me"
-          onPress={this.onPressButton}
+          title="Start Button"
+          onPress={this.onPressStart}
+        />
+        <Button
+          title="Stop Button"
+          onPress={this.onPressStop}
         />
       </View>
     );
