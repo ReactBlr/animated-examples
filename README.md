@@ -1,9 +1,6 @@
 # Animated Examples
 
-### Animated Methods - Part 1
+### Animated Methods - Part 2
 
-Here have a Button and an Animated.View. Click the Button and the View becomes opaque. Click it again and the View becomes transparent.
-
-Take a close look at what happens. On click the Animated.Value will time to the 'toValues' mention in the onPressButton function.
-
-Try fiddling around with the 'toValues' and the styles of the Animated.View.
+In this example, I animate the size of a circle over a period of time.
+Using Animated.Stagger & Animated.Loop, I sequence a few simple animations.
