@@ -1,11 +1,4 @@
 # Animated Examples
 
-## All about using React Native's Animated Library
-
-## Agenda
-
-1. Examples of Animated Methods
-
-2. Building a Twitter-like scroll based animation
-
-3. Animated Performance
+In this example, I show you how to animate a simple header component while you scroll. 
+The color of the header and the height change while you scroll.

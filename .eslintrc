@@ -37,6 +37,7 @@
     "no-use-before-define": ["error", { "variables": false }],
     "react/prop-types": 0,
     "no-alert": 0,
-    "no-console": 0
+    "no-console": 0,
+    "react/destructuring-assignment": ["off"]
   }
 }
