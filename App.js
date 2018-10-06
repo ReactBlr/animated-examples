@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, Animated, Text, Image, FlatList } from 'react-native';
+import { View, Animated, Image, FlatList } from 'react-native';
 import ImageCard from './components/ImageCard';
 
 const HEADER_MAX_HEIGHT = 120;
 const HEADER_MIN_HEIGHT = 64;
 const IMAGE_MAX_WIDTH = 80;
-// const IMAGE_MIN_WIDTH = 40;
 
 const imageSource = require('./assets/icon.png');
 
@@ -45,6 +44,42 @@ export default class App extends React.Component {
       extrapolate: 'clamp',
     });
 
+    const imageTranslateX = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+      outputRange: [0, -24],
+      extrapolate: 'clamp',
+    });
+
+    const imageTranslateY = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+      outputRange: [0, -HEADER_MIN_HEIGHT - 20],
+      extrapolate: 'clamp',
+    });
+
+    const imageScale = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+      outputRange: [1, 0.5],
+      extrapolate: 'clamp',
+    });
+
+    const textColorInterpolate = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+      outputRange: ['black', 'white'],
+      extrapolate: 'clamp',
+    });
+
+    const textTranslateY = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+      outputRange: [0, -HEADER_MAX_HEIGHT - 18],
+      extrapolate: 'clamp',
+    });
+
+    const textTranslateX = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+      outputRange: [0, 48],
+      extrapolate: 'clamp',
+    });
+
     return (
       <View style={{ flex: 1, backgroundColor: '#f1f1f1' }}>
         <FlatList
@@ -55,21 +90,18 @@ export default class App extends React.Component {
           scrollEventThrottle={16}
           stickyHeaderIndices={[0]}
           ListHeaderComponent={(
-            <View>
+            <View style={{ paddingHorizontal: 16 }}>
               <Animated.View
                 style={{
                   position: 'absolute',
                   top: 0,
                   left: 0,
                   right: 0,
-                  // height: HEADER_MAX_HEIGHT,
-                  // color: 'lightskyblue'
                   height: headerHeightInterpolate,
                   backgroundColor: headerColorInterpolate,
-                  zIndex: 2,
                 }}
               />
-              <View
+              <Animated.View
                 style={{
                   height: IMAGE_MAX_WIDTH,
                   width: IMAGE_MAX_WIDTH,
@@ -78,16 +110,31 @@ export default class App extends React.Component {
                   borderColor: 'white',
                   backgroundColor: 'white',
                   marginTop: HEADER_MAX_HEIGHT - IMAGE_MAX_WIDTH / 2,
+                  transform: [
+                    { translateY: imageTranslateY },
+                    { translateX: imageTranslateX },
+                    { scale: imageScale },
+                  ],
                 }}
               >
                 <Image
                   source={imageSource}
                   style={{ flex: 1, width: null, height: null }}
                 />
-              </View>
-              <Text style={{ fontSize: 24, fontWeight: '500' }}>
+              </Animated.View>
+              <Animated.Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: '500',
+                  color: textColorInterpolate,
+                  transform: [
+                    { translateY: textTranslateY },
+                    { translateX: textTranslateX },
+                  ],
+                }}
+              >
                 React Bangalore
-              </Text>
+              </Animated.Text>
             </View>
           )}
           data={this.state.data}
